@@ -8,7 +8,8 @@ mongoose.connect("mongodb://localhost/yelp_camp");
 //Schema Setup
 var campgroundSchema = new mongoose.Schema({
     name : String,
-    image : String
+    image : String,
+    description : String
 });
 
 var Campground = mongoose.model("Campground",campgroundSchema);
@@ -27,16 +28,18 @@ app.get("/campgrounds",function (req, res) {
        if(err){
            console.log(err);
        } else{
-           res.render("campgrounds",{campgrounds : allCampGrounds});
+           res.render("index",{campgrounds : allCampGrounds});
        }
     });
 });
 app.post("/campgrounds",function (req, res) {
     var cg_name = req.body.name;
     var cg_img = req.body.image;
+    var cg_description = req.body.description;
     Campground.create({
         name : cg_name,
-        image : cg_img
+        image : cg_img,
+        description : cg_description
     },function (err , ground) {
         if(err){
             console.log(err);
@@ -48,6 +51,18 @@ app.post("/campgrounds",function (req, res) {
 app.get("/campgrounds/new",function (req, res) {
    res.render("new");
 });
+
+app.get("/campgrounds/:id",function (req, res) {
+    var cg_id = req.params.id;
+    Campground.findById(cg_id,function (err, theCampGround) {
+       if(err){
+           console.log(err);
+       }else {
+           res.render("show",{campground : theCampGround});
+       }
+    });
+});
+
 app.listen(3000,function () {
    console.log("YelpCamp started on port 3000");
 });
