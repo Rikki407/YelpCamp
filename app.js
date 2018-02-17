@@ -6,7 +6,7 @@ var express         = require("express"),
     passport        = require("passport"),
     LocalStratergy  = require("passport-local"),
     Users           = require("./models/users.js"),
-        seedDB      = require("./seeds");
+    seedDB          = require("./seeds");
 
 var app     = express();
 
@@ -17,6 +17,23 @@ app.set("view engine","ejs");
 
 seedDB();
 
+//////////////////////////////////////////////////
+//PASSPORT CONFIGURATION
+//////////////////////////////////////////////////
+
+app.use(require("express-session")({
+    secret : "Rikki is the best",
+    resave : false,
+    saveUninitialized : false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStratergy(Users.authenticate()));
+
+passport.serializeUser(Users.serializeUser());
+passport.deserializeUser(Users.deserializeUser());
+
+///////////////////////////////////////////////////
 app.get("/",function (req, res) {
 
    res.render("landing");
@@ -100,6 +117,25 @@ app.post("/campgrounds/:id/comments",function (req, res) {
             });
         }
     })
+});
+
+//=============================================================
+//AUTH ROUTE
+//=============================================================
+app.get("/register",function (req, res) {
+   res.render("register");
+});
+app.post("/register",function (req, res) {
+    var newUser = new Users({username : req.body.username});
+    Users.register(newUser,req.body.password,function (err, user) {
+        if(err){
+            console.log(err);
+            return res.redirect("/register");
+        }
+        passport.authenticate("local")(req,res,function () {
+            res.redirect("/campgrounds");
+        })
+    });
 });
 
 app.listen(3000,function () {
