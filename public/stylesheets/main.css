@@ -1,0 +1,8 @@
+.img-thumbnail{
+    padding: 0;
+}
+.img-fluid{
+    height: auto;
+    width: 100%;
+    display: block;
+}

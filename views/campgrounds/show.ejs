@@ -12,15 +12,15 @@
         </div>
         <div class="col-md-9">
             <div class="img-thumbnail">
-                <img class="img-fluid" alt="Responsive image" style="height: auto; width: 100%; display: block;" src="<%=campground.image%>">
-                <div class="caption-full">
+                <img class="img-fluid" alt="Responsive image" src="<%=campground.image%>">
+                <div class="caption-full p-3">
                     <h5 class="float-right">$9.00/night</h5>
                     <h4><a href="/"><%=campground.name%></a></h4>
                     <p><%=campground.description%></p>
 
                 </div>
             </div>
-            <div class="card card-header mt-3">
+            <div class=" card-header mt-3">
                 <div class="text-right">
                    <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Leave a Review</a>
                 </div>
