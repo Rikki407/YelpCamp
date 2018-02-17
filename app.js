@@ -138,6 +138,19 @@ app.post("/register",function (req, res) {
     });
 });
 
+app.get("/login",function (req, res) {
+   res.render("login");
+});
+
+app.post("/login",passport.authenticate("local",
+    {
+        successRedirect : "/campgrounds",
+        failureRedirect : "/login"
+    })
+    ,function (req, res) {
+   res.send("You wish to login ?");
+});
+
 app.listen(3000,function () {
    console.log("YelpCamp started on port 3000");
 });
