@@ -23,7 +23,7 @@ app.get("/campgrounds",function (req, res) {
        if(err){
            console.log(err);
        } else{
-           res.render("index",{campgrounds : allCampGrounds});
+           res.render("campgrounds/index",{campgrounds : allCampGrounds});
        }
     });
 });
@@ -46,7 +46,7 @@ app.post("/campgrounds",function (req, res) {
 });
 // NEW ROUTE
 app.get("/campgrounds/new",function (req, res) {
-   res.render("new");
+   res.render("campgrounds/new");
 });
 // SHOW ROUTE
 app.get("/campgrounds/:id",function (req, res) {
@@ -56,11 +56,25 @@ app.get("/campgrounds/:id",function (req, res) {
            console.log(err);
        }else {
            console.log(theCampGround);
-           res.render("show",{campground : theCampGround});
+           res.render("campgrounds/show",{campground : theCampGround});
        }
     });
 });
 
+
+//=============================================================
+//COMMENTS ROUTE
+//=============================================================
+
+app.get("/campgrounds/:id/comments/new",function (req, res) {
+    Campground.findById(req.params.id,function (err, campground) {
+       if(err){
+           console.log(err);
+       }else {
+           res.render("comments/new",{campground : campground});
+       }
+    });
+});
 
 app.listen(3000,function () {
    console.log("YelpCamp started on port 3000");
