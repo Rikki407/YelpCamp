@@ -32,8 +32,13 @@ passport.use(new LocalStratergy(Users.authenticate()));
 
 passport.serializeUser(Users.serializeUser());
 passport.deserializeUser(Users.deserializeUser());
-
 ///////////////////////////////////////////////////
+
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.get("/",function (req, res) {
 
    res.render("landing");
