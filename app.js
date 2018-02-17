@@ -3,6 +3,9 @@ var express         = require("express"),
     mongoose        = require("mongoose"),
     Campgrounds     = require("./models/campground.js"),
     Comments        = require("./models/comment.js"),
+    passport        = require("passport"),
+    LocalStratergy  = require("passport-local"),
+    Users           = require("./models/users.js"),
         seedDB      = require("./seeds");
 
 var app     = express();
